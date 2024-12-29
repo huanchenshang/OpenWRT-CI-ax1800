@@ -13,12 +13,12 @@ if [ -f "$WIFI_SH" ]; then
 	#修改WIFI名称
 	sed -i "s/BASE_SSID='.*'/BASE_SSID='$WRT_SSID'/g" $WIFI_SH
 	#修改WIFI密码
-	sed -i "s/BASE_WORD='.*'/BASE_WORD='lcs15076020281'/g" $WIFI_SH
+	sed -i "s/BASE_WORD='.*'/BASE_WORD='$WRT_WORD'/g" $WIFI_SH
 elif [ -f "$WIFI_UC" ]; then
 	#修改WIFI名称
 	sed -i "s/ssid='.*'/ssid='$WRT_SSID'/g" $WIFI_UC
 	#修改WIFI密码
-	sed -i "s/key='.*'/key='lcs15076020281'/g" $WIFI_UC
+	sed -i "s/key='.*'/key='$WRT_WORD'/g" $WIFI_UC
 	#修改WIFI地区
 	sed -i "s/country='.*'/country='CN'/g" $WIFI_UC
 	#修改WIFI加密
@@ -54,3 +54,28 @@ if [[ $WRT_TARGET == *"IPQ"* ]]; then
 		echo "CONFIG_NSS_FIRMWARE_VERSION_12_2=y" >> ./.config
 	fi
 fi
+# 想要剔除的
+echo "CONFIG_PACKAGE_luci-app-wolplus=n" >> ./.config
+echo "CONFIG_PACKAGE_luci-theme-kucat=n" >> ./.config
+#想要添加的
+echo "CONFIG_PACKAGE_luci-app-openclash=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-ttyd=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-i18n-ttyd-zh-cn=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-app-hd-idle=y" >> ./.config
+echo "CONFIG_PACKAGE_luci-i18n-hd-idle-zh-cn=y" >> ./.config
+echo "CONFIG_PACKAGE_autosamba=y" >> ./.config
+echo "" >> ./.config
+# 可以让FinalShell查看文件列表并且ssh连上不会自动断开
+echo "CONFIG_PACKAGE_openssh-sftp-server=y" >> ./.config
+# 解析、查询、操作和格式化 JSON 数据
+echo "CONFIG_PACKAGE_jq=y" >> ./.config
+echo "CONFIG_PACKAGE_curl=y" >> ./.config
+# bbr加速+turboacc
+echo "CONFIG_PACKAGE_luci-app-turboacc=y" >> ./.config
+BBR 拥塞控制算法
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+# BBR 拥塞控制算法(终端侧) + CAKE 一种现代化的队列管理算法(路由侧)
+echo "CONFIG_PACKAGE_luci-app-sqm=y" >> ./.config
+echo "CONFIG_PACKAGE_kmod-sched-cake=y" >> ./.config
+echo "CONFIG_PACKAGE_kmod-tcp-bbr=y" >> ./.config
+echo "CONFIG_DEFAULT_tcp_bbr=y" >> ./.config
